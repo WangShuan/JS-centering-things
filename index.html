@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>保持分享居中</title>
+    <script src="./fn.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 2000px;
+        }
+
+        h3 {
+            border: 1px solid black;
+            height: 50px;
+            width: 600px;
+            color: brown;
+            margin: 10px auto;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        #content {
+            width: 100px;
+            height: 120px;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 284.5px;
+            text-align: center;
+            left: -100px;
+        }
+
+        #content a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            line-height: 30px;
+        }
+
+        #title {
+            width: 30px;
+            height: 60px;
+            background: black;
+            color: white;
+            position: absolute;
+            left: 100px;
+            top: 25px;
+            text-align: center;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>讓"分享到"保持在頁面居中位置 並幫它添加緩衝運動</h3>
+    <div id="content">
+        <a href="#">LINE keep</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">Messenger</a>
+
+        <div id="title">
+            分享到
+        </div>
+    </div> 
+
+    <script>
+        var timer = null
+
+        // #content left: 100px 顯示
+        $('content').onmouseover = function () {
+            startMove(this, 0)
+        }
+        $('content').onmouseout = function () {
+            startMove(this, -100)
+        }
+
+        window.onscroll = function () {
+            var screenH = document.documentElement.clientHeight || document.body.clientHeight
+
+            var top = (screenH - $('content').offsetHeight) / 2
+
+            var offsetTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+            var target = top + offsetTop
+
+            startMove2($('content'), parseInt(target))
+        }
+
+        var timer2 = null
+
+        function startMove2(obj, target) {
+            clearInterval(timer2)
+
+            timer2 = setInterval(function () {
+                var speed = (target - obj.offsetTop) / 7
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed)
+                if (obj.offsetTop == target) {
+                    clearInterval(timer2)
+                } else {
+                    obj.style.top = obj.offsetTop + speed + 'px'
+                }
+            }, 30)
+        }
+    </script>
+</body>
+
+</html>
